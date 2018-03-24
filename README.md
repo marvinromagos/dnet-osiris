@@ -38,3 +38,4 @@ To clone and run this repository you'll need [Git](https://git-scm.com) and [Nod
 # Run the app
 > npm start
 ```
+<img width="1008" alt="screen shot 2018-03-24 at 10 04 42 pm" src="https://user-images.githubusercontent.com/580697/37864941-5a671d52-2fb0-11e8-962b-ab2fb773f4dd.png">

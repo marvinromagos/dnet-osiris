@@ -20,3 +20,21 @@ Is a store for decentralized apps. It could be any free and purchasable software
 
 <h2>Plugins</h2>
 The browser will support traditional plugins and decentralized add-ons.
+
+## How To Use
+
+To clone and run this repository you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer. From your command line:
+
+```bash
+# Clone this repository
+> git clone https://github.com/decenternet/dnet-osiris.git
+
+# Go into the repository
+> cd dnet-osiris
+
+# Install dependencies
+> npm install
+
+# Run the app
+> npm start
+```

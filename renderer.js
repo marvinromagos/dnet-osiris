@@ -55,7 +55,7 @@ function forwardView () {
     view.goForward();
 }
 
-var Bookmark = function (id, url, faviconUrl, title) {
+var Bookmark = function (id, url, title) {
     this.id = id;
     this.url = url;
     this.title = title;
@@ -64,7 +64,7 @@ var Bookmark = function (id, url, faviconUrl, title) {
 function addBookmark () {
     let url = view.src;
     let title = view.getTitle();
-    let book = new Bookmark(uuid.v1(), url, fav, title);
+    let book = new Bookmark(uuid.v1(), url, title);
 
     jsonfile.readFile(bookmarks, function(err, curr) {
         curr.push(book);

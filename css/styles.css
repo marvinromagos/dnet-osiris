@@ -41,6 +41,12 @@ i {
     cursor: pointer;
 }
 
+#omnibox {
+    float: left;
+    width: 80%;
+    margin-right: 20px;
+}
+
 input#url {
     border: 1px solid rgba(0,0,0,0.08);
     border-radius: 1px;
@@ -48,9 +54,18 @@ input#url {
     font-size: 14px;
     padding: 2px;
     padding-left: 4px;
-    width: 90%;
+    width: 100%;
     line-height: 0;
     color: #777;
+}
+
+#fave {
+    float: left;
+    color: #777;
+}
+
+#fave i {
+    vertical-align: middle;
 }
 
 #view-container {

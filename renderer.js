@@ -1,6 +1,11 @@
 var nodeConsole = require('console');
 var _console = new nodeConsole.Console(process.stdout, process.stderr);
 
+var jsonfile = require('jsonfile');
+var path = require('path');
+var uuid = require('uuid');
+var bookmarks = path.join(__dirname, 'bookmarks.json');
+
 var getElementById = function (id) {
     return document.getElementById(id);
 }
@@ -48,6 +53,24 @@ function backView () {
 
 function forwardView () {
     view.goForward();
+}
+
+var Bookmark = function (id, url, title) {
+    this.id = id;
+    this.url = url;
+    this.title = title;
+}
+
+function addBookmark () {
+    let url = view.src;
+    let title = view.getTitle();
+    let book = new Bookmark(uuid.v1(), url, title);
+
+    jsonfile.readFile(bookmarks, function(err, curr) {
+        curr.push(book);
+        jsonfile.writeFile(bookmarks, curr, function (err) {
+        })
+    })
 }
 
 refreshBtn.addEventListener('click', reloadView);

@@ -204,9 +204,14 @@ function addTab (event) {
 
 function switchTab(event) {
     var tabId = parseInt($(this).attr('id').replace('tab',''));
+    var url = $('#view'+tabId).attr('src');
 
     $('webview').removeClass('active');
     $('#view'+tabId).addClass('active');
+
+
+    // Update url in address bar when switching tabs
+    omnibox.value = url;
 }
 
 // ------------------------------
@@ -228,9 +233,7 @@ addTabBtn.addEventListener('click', addTab);
 // Switch tabs
 $(document.body).on('click', '.nav-tabs-tab', switchTab);
 
-// Update url in address bar
-//   - when creating new tabs
-//   - when switching tabs
+
 
 // Delete tab
 // Forward, back and refresh buttons on selected tab

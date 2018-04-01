@@ -15,11 +15,14 @@ var backBtn = getElementById('back');
 var forwardBtn = getElementById('forward');
 var refreshBtn = getElementById('refresh');
 var urlBtn = getElementById('url');
-var view = getElementById('view');
+// var view = getElementById('view');
+var view = document.getElementsByClassName('view-instance')[0];
 var omnibox = getElementById('url');
 var fave = getElementById('fave');
 var list = getElementById('list');
 var popup = getElementById('fave-popup');
+var addTabBtn = getElementById('nav-tabs-add');
+
 
 function reloadView () {
     view.reload();
@@ -138,6 +141,25 @@ function handleUrl (event) {
     }
 }
 
+function addTab (event) {
+    // Create new tab elements and increment the tab id
+    // **Skip for now
+
+    // Create new webview tag and increment view id
+    // Remove active class from the previous view
+    var lastWebviewIndex = document.getElementsByTagName('webview').length - 1;
+    var lastWebviewId = document.getElementsByTagName('webview')[lastWebviewIndex].id;
+    var lastIndex = parseInt(lastWebviewId.split('view')[1]);
+
+    // Create new webview tag and increment view id
+    var webviewTag = document.createElement('webview');
+    webviewTag.className = 'view-instance active';
+    webviewTag.src = 'http://www.facebook.com/';
+    webviewTag.id = 'view'+(lastIndex+1);
+
+    getElementById('view-container').insertBefore(webviewTag, getElementById('webview-reference'))
+}
+
 refreshBtn.addEventListener('click', reloadView);
 omnibox.addEventListener('keydown', loadSiteUrl);
 backBtn.addEventListener('click', backView);
@@ -146,4 +168,9 @@ view.addEventListener('did-finish-load', showUrl);
 fave.addEventListener('click', addBookmark);
 list.addEventListener('click', openPopUp);
 popup.addEventListener('click', handleUrl);
+
+// Add tab
+addTabBtn.addEventListener('click', addTab);
+// Switch tabs
+// Delete tab
 

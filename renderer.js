@@ -33,6 +33,8 @@ function showUrl (event) {
 }
 
 function loadSiteUrl (event) {
+    var activeIndex = $('.view-instance.active').index();
+
     // 13 is Enter key
     if (event.keyCode === 13) {
         // Remove focus
@@ -49,7 +51,16 @@ function loadSiteUrl (event) {
             url = url + '.com'
         }
 
-        view.loadURL(url)
+        document.getElementsByClassName('view-instance')[activeIndex].loadURL(url)
+
+        // Update tab title
+        document.getElementsByClassName('view-instance')[activeIndex].addEventListener('did-finish-load', function() {
+            let title = document.getElementsByClassName('view-instance')[activeIndex].getTitle().split(' ')[0];
+
+            _console.log('span#tab'+activeIndex+' i.nav-tabs-title');
+
+            $('span#tab'+(activeIndex+1)+' i.nav-tabs-title').text(title);
+        });
     }
 }
 
@@ -208,8 +219,11 @@ addTabBtn.addEventListener('click', addTab);
 // Switch tabs
 $(document.body).on('click', '.nav-tabs-tab', switchTab);
 
-// Change URL or site on selected tab
-// Update url in address bar when creating new tabs
+// Update url in address bar
+//   - when creating new tabs
+//   - when switching tabs
+
 // Delete tab
 // Forward, back and refresh buttons on selected tab
+// Update tab title based on the loaded site
 

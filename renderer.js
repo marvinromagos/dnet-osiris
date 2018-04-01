@@ -141,10 +141,28 @@ function handleUrl (event) {
     }
 }
 
-function addTab (event) {
-    // Create new tab elements and increment the tab id
-    // **Skip for now
+function addNavTab(id) {
+    var element = '<span id="tab'+ id +'" class="nav-tabs-tab" data-session="4">\
+            <i class="nav-tabs-favicon nav-icons">\
+                <svg height="100%" viewBox="0 0 24 24" fill="#ffffff">\
+                    <path d="M0 0h24v24H0z" fill="none"></path>\
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"></path>\
+                </svg>\
+            </i>\
+            <i class="nav-tabs-title" title="Google">Facebook</i>\
+            <i class="nav-tabs-close nav-icons">\
+                <svg height="100%" viewBox="0 0 24 24">\
+                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path>\
+                    <path d="M0 0h24v24H0z" fill="none"></path>\
+                </svg>\
+            </i>\
+        </span>'
 
+    $(element).insertBefore('#nav-tabs-add');
+    // $('#nav-tabs-add').insertBefore(element);
+}
+
+function addTab (event) {
     // Create new webview tag and increment view id
     // Remove active class from the previous view
     var lastWebviewIndex = document.getElementsByTagName('webview').length - 1;
@@ -156,9 +174,13 @@ function addTab (event) {
     var webviewTag = document.createElement('webview');
     webviewTag.className = 'view-instance active';
     webviewTag.src = 'http://www.facebook.com/';
-    webviewTag.id = 'view'+(lastIndex+1);
+    var newIndex = lastIndex + 1;
+    webviewTag.id = 'view'+ newIndex;
 
     getElementById('view-container').insertBefore(webviewTag, getElementById('webview-reference'))
+
+    // Create new tab elements and increment the tab id
+    addNavTab(newIndex)
 }
 
 refreshBtn.addEventListener('click', reloadView);
@@ -174,4 +196,5 @@ popup.addEventListener('click', handleUrl);
 addTabBtn.addEventListener('click', addTab);
 // Switch tabs
 // Delete tab
+// Change URL or site on selected tab
 

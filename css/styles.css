@@ -173,6 +173,7 @@ input#url {
     min-width: 60px;
     width: 180px;
     min-height: 20px;
+    cursor: pointer;
 
     border-bottom: 1px solid #777;
     border-right: 1px solid #777;

@@ -159,7 +159,6 @@ function addNavTab(id) {
         </span>'
 
     $(element).insertBefore('#nav-tabs-add');
-    // $('#nav-tabs-add').insertBefore(element);
 }
 
 function addTab (event) {
@@ -183,6 +182,17 @@ function addTab (event) {
     addNavTab(newIndex)
 }
 
+function switchTab(event) {
+    var tabId = parseInt($(this).attr('id').replace('tab',''));
+
+    $('webview').removeClass('active');
+    $('#view'+tabId).addClass('active');
+}
+
+// ------------------------------
+// --           EVENTS
+// ------------------------------
+
 refreshBtn.addEventListener('click', reloadView);
 omnibox.addEventListener('keydown', loadSiteUrl);
 backBtn.addEventListener('click', backView);
@@ -194,7 +204,12 @@ popup.addEventListener('click', handleUrl);
 
 // Add tab
 addTabBtn.addEventListener('click', addTab);
+
 // Switch tabs
-// Delete tab
+$(document.body).on('click', '.nav-tabs-tab', switchTab);
+
 // Change URL or site on selected tab
+// Update url in address bar when creating new tabs
+// Delete tab
+// Forward, back and refresh buttons on selected tab
 

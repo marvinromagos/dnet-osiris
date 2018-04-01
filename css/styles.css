@@ -103,7 +103,7 @@ input#url {
     position: relative;
 }
 
-#view {
+.view-instance {
     position: absolute;
     top: 0;
     left: 0;
@@ -111,6 +111,11 @@ input#url {
     bottom: 0;
     width: 100%;
     height: calc(100vh - 28px);
+    display: none;
+}
+
+.active {
+    display: flex;
 }
 
 .link {
@@ -134,4 +139,48 @@ input#url {
 
 .fa-list {
     font-size: smaller;
+}
+
+#nav-body-tabs {
+    overflow: auto;
+    min-height: 32px;
+}
+
+.nav-tabs-favicon {
+    align-content: flex-start;
+}
+
+.nav-tabs-title {
+    flex: 1;
+    cursor: default;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-style: normal;
+    font-family:monospace;
+}
+
+.nav-tabs-close {
+    align-content: flex-end;
+}
+
+#nav-body-ctrls, #nav-body-tabs, #nav-body-views, .nav-tabs-tab {
+    display: flex;
+    align-items: center;
+}
+
+.nav-tabs-tab {
+    min-width: 60px;
+    width: 180px;
+    min-height: 20px;
+    cursor: pointer;
+
+    border-bottom: 1px solid #777;
+    border-right: 1px solid #777;
+}
+
+.nav-icons {
+    fill: #000;
+    width: 24px;
+    height: 24px;
 }

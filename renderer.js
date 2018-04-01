@@ -15,11 +15,14 @@ var backBtn = getElementById('back');
 var forwardBtn = getElementById('forward');
 var refreshBtn = getElementById('refresh');
 var urlBtn = getElementById('url');
-var view = getElementById('view');
+// var view = getElementById('view');
+var view = document.getElementsByClassName('view-instance')[0];
 var omnibox = getElementById('url');
 var fave = getElementById('fave');
 var list = getElementById('list');
 var popup = getElementById('fave-popup');
+var addTabBtn = getElementById('nav-tabs-add');
+
 
 function reloadView () {
     view.reload();
@@ -30,6 +33,8 @@ function showUrl (event) {
 }
 
 function loadSiteUrl (event) {
+    var activeIndex = $('.view-instance.active').index();
+
     // 13 is Enter key
     if (event.keyCode === 13) {
         // Remove focus
@@ -46,7 +51,14 @@ function loadSiteUrl (event) {
             url = url + '.com'
         }
 
-        view.loadURL(url)
+        document.getElementsByClassName('view-instance')[activeIndex].loadURL(url)
+
+        // Update tab title based on the loaded site
+        document.getElementsByClassName('view-instance')[activeIndex].addEventListener('did-finish-load', function() {
+            let title = document.getElementsByClassName('view-instance')[activeIndex].getTitle().split(' ')[0];
+
+            $('span#tab'+(activeIndex+1)+' i.nav-tabs-title').text(title);
+        });
     }
 }
 
@@ -79,6 +91,8 @@ Bookmark.prototype.ELEMENT = function () {
 }
 
 function addBookmark () {
+    var activeIndex = $('.view-instance.active').index();
+    var view = document.getElementsByClassName('view-instance')[activeIndex];
     let url = view.src;
     let title = view.getTitle().split(' ')[0];
 
@@ -138,6 +152,88 @@ function handleUrl (event) {
     }
 }
 
+function addNavTab(id) {
+    var element = '<span id="tab'+ id +'" class="nav-tabs-tab" data-session="4">\
+            <i class="nav-tabs-favicon nav-icons">\
+                <svg height="100%" viewBox="0 0 24 24" fill="#ffffff">\
+                    <path d="M0 0h24v24H0z" fill="none"></path>\
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"></path>\
+                </svg>\
+            </i>\
+            <i class="nav-tabs-title" title="Google">Google</i>\
+            <i class="nav-tabs-close nav-icons">\
+                <svg height="100%" viewBox="0 0 24 24">\
+                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path>\
+                    <path d="M0 0h24v24H0z" fill="none"></path>\
+                </svg>\
+            </i>\
+        </span>'
+
+    $(element).insertBefore('#nav-tabs-add');
+}
+
+function addTab (event) {
+    // Create new webview tag and increment view id
+    // Remove active class from the previous view
+    var lastWebviewIndex = document.getElementsByTagName('webview').length - 1;
+    var lastWebviewId = document.getElementsByTagName('webview')[lastWebviewIndex].id;
+    var lastIndex = parseInt(lastWebviewId.split('view')[1]);
+    $('webview')[lastWebviewIndex].className = 'view-instance';
+
+    // Create new webview tag and increment view id
+    var webviewTag = document.createElement('webview');
+    webviewTag.className = 'view-instance active';
+    webviewTag.src = 'http://www.google.com/';
+    var newIndex = lastIndex + 1;
+    webviewTag.id = 'view'+ newIndex;
+
+    getElementById('view-container').insertBefore(webviewTag, getElementById('webview-reference'))
+
+    // Create new tab elements and increment the tab id
+    addNavTab(newIndex)
+
+
+    // Update url in address bar
+    //   - when creating new tabs
+    var activeIndex = $('.view-instance.active').index();
+
+    document.getElementsByClassName('view-instance')[activeIndex].addEventListener('did-finish-load', function() {
+        var url = document.getElementsByClassName('view-instance')[activeIndex].getURL();
+
+        omnibox.value = url;
+    });
+}
+
+function switchTab(event) {
+    var tabId = parseInt($(this).attr('id').replace('tab',''));
+    var url = $('#view'+tabId).attr('src');
+
+    $('webview').removeClass('active');
+    $('#view'+tabId).addClass('active');
+
+    // Update url in address bar when switching tabs
+    omnibox.value = url;
+}
+
+function closeTab(event) {
+    event.stopPropagation();
+
+    var selectedId = parseInt($(this).parent().attr('id').replace('tab',''));
+    var prevViewId = selectedId - 1;
+    var url = $('#view'+prevViewId).attr('src');
+
+    $('#tab'+selectedId).remove();
+    $('webview').removeClass('active');
+    $('#view'+prevViewId).addClass('active');
+
+    // Update url in address bar when deleting tabs
+    omnibox.value = url;
+}
+
+// ------------------------------
+// --           EVENTS
+// ------------------------------
+
 refreshBtn.addEventListener('click', reloadView);
 omnibox.addEventListener('keydown', loadSiteUrl);
 backBtn.addEventListener('click', backView);
@@ -146,4 +242,17 @@ view.addEventListener('did-finish-load', showUrl);
 fave.addEventListener('click', addBookmark);
 list.addEventListener('click', openPopUp);
 popup.addEventListener('click', handleUrl);
+
+// Add tab
+addTabBtn.addEventListener('click', addTab);
+
+// Switch tabs
+$(document.body).on('click', '.nav-tabs-tab', switchTab);
+
+// Delete tab
+$(document.body).on('click', '.nav-tabs-close', closeTab);
+// Forward, back and refresh buttons on selected tab
+// Load selected bookmark on the selected tab
+
+
 

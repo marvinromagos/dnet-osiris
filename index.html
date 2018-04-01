@@ -29,10 +29,30 @@
             <i class="fa fa-list" aria-hidden="true"></i>
         </div>
     </nav>
+    <div id="nav-body-tabs">
+        <span id="tab1" class="nav-tabs-tab" data-session="4">
+            <i class="nav-tabs-favicon nav-icons">
+                <svg height="100%" viewBox="0 0 24 24" fill="#ffffff">
+                    <path d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"></path>
+                </svg>
+            </i>
+            <i class="nav-tabs-title" title="Google">Google</i>
+        </span>
+        <i id="nav-tabs-add" class="nav-icons" title="Add new tab">
+            <svg height="100%" viewBox="0 0 24 24">
+                <path d="M0 0h24v24H0z" fill="none"></path>
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"></path>
+            </svg>
+        </i>
+    </div>
     <div id="view-container">
-        <webview id="view" class="page" src="http://www.google.com/"></webview>
+        <webview id="view1" class="view-instance active" src="http://www.google.com/"></webview>
+        <span id="webview-reference"></span>
     </div>
 
+    <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+    <script src="http://code.jquery.com/jquery-1.12.0.min.js"></script>
     <script>
       require('./renderer.js')
     </script>

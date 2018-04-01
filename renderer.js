@@ -57,8 +57,6 @@ function loadSiteUrl (event) {
         document.getElementsByClassName('view-instance')[activeIndex].addEventListener('did-finish-load', function() {
             let title = document.getElementsByClassName('view-instance')[activeIndex].getTitle().split(' ')[0];
 
-            _console.log('span#tab'+activeIndex+' i.nav-tabs-title');
-
             $('span#tab'+(activeIndex+1)+' i.nav-tabs-title').text(title);
         });
     }
@@ -160,7 +158,7 @@ function addNavTab(id) {
                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"></path>\
                 </svg>\
             </i>\
-            <i class="nav-tabs-title" title="Google">Facebook</i>\
+            <i class="nav-tabs-title" title="Google">Google</i>\
             <i class="nav-tabs-close nav-icons">\
                 <svg height="100%" viewBox="0 0 24 24">\
                     <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path>\
@@ -183,7 +181,7 @@ function addTab (event) {
     // Create new webview tag and increment view id
     var webviewTag = document.createElement('webview');
     webviewTag.className = 'view-instance active';
-    webviewTag.src = 'http://www.facebook.com/';
+    webviewTag.src = 'http://www.google.com/';
     var newIndex = lastIndex + 1;
     webviewTag.id = 'view'+ newIndex;
 
@@ -191,6 +189,17 @@ function addTab (event) {
 
     // Create new tab elements and increment the tab id
     addNavTab(newIndex)
+
+
+    // Update url in address bar
+    //   - when creating new tabs
+    var activeIndex = $('.view-instance.active').index();
+
+    document.getElementsByClassName('view-instance')[activeIndex].addEventListener('did-finish-load', function() {
+        var url = document.getElementsByClassName('view-instance')[activeIndex].getURL();
+
+        omnibox.value = url;
+    });
 }
 
 function switchTab(event) {

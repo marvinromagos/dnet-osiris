@@ -53,7 +53,7 @@ function loadSiteUrl (event) {
 
         document.getElementsByClassName('view-instance')[activeIndex].loadURL(url)
 
-        // Update tab title
+        // Update tab title based on the loaded site
         document.getElementsByClassName('view-instance')[activeIndex].addEventListener('did-finish-load', function() {
             let title = document.getElementsByClassName('view-instance')[activeIndex].getTitle().split(' ')[0];
 
@@ -91,6 +91,8 @@ Bookmark.prototype.ELEMENT = function () {
 }
 
 function addBookmark () {
+    var activeIndex = $('.view-instance.active').index();
+    var view = document.getElementsByClassName('view-instance')[activeIndex];
     let url = view.src;
     let title = view.getTitle().split(' ')[0];
 
@@ -209,8 +211,22 @@ function switchTab(event) {
     $('webview').removeClass('active');
     $('#view'+tabId).addClass('active');
 
-
     // Update url in address bar when switching tabs
+    omnibox.value = url;
+}
+
+function closeTab(event) {
+    event.stopPropagation();
+
+    var selectedId = parseInt($(this).parent().attr('id').replace('tab',''));
+    var prevViewId = selectedId - 1;
+    var url = $('#view'+prevViewId).attr('src');
+
+    $('#tab'+selectedId).remove();
+    $('webview').removeClass('active');
+    $('#view'+prevViewId).addClass('active');
+
+    // Update url in address bar when deleting tabs
     omnibox.value = url;
 }
 
@@ -233,9 +249,10 @@ addTabBtn.addEventListener('click', addTab);
 // Switch tabs
 $(document.body).on('click', '.nav-tabs-tab', switchTab);
 
-
-
 // Delete tab
+$(document.body).on('click', '.nav-tabs-close', closeTab);
 // Forward, back and refresh buttons on selected tab
-// Update tab title based on the loaded site
+// Load selected bookmark on the selected tab
+
+
 

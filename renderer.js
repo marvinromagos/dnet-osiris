@@ -150,6 +150,7 @@ function addTab (event) {
     var lastWebviewIndex = document.getElementsByTagName('webview').length - 1;
     var lastWebviewId = document.getElementsByTagName('webview')[lastWebviewIndex].id;
     var lastIndex = parseInt(lastWebviewId.split('view')[1]);
+    $('webview')[lastWebviewIndex].className = 'view-instance';
 
     // Create new webview tag and increment view id
     var webviewTag = document.createElement('webview');
